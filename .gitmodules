@@ -1,0 +1,3 @@
+[submodule "src/ColdHook/src"]
+	path = src/ColdHook/src
+	url = git://github.com/Rat431/ColdHook.git
