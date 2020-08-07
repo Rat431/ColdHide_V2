@@ -27,4 +27,4 @@ To inject this library try using [ColdMDLoader](https://github.com/Rat431/ColdMD
 
 ## Credits
 - [Zydis (Disassembler engine)](https://github.com/zyantific/zydis)
-- [ColdHook (Hooking library)] (https://github.com/Rat431/ColdHook)
+- [ColdHook (Hooking library)](https://github.com/Rat431/ColdHook)
