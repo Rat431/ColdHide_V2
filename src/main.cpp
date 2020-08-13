@@ -1,5 +1,5 @@
 /*
-	Copyright (c) 2019 Rat431 (https://github.com/Rat431).
+	Copyright (c) 2020 Rat431 (https://github.com/Rat431).
 	This software is under the MIT license, for more informations check the LICENSE file.
 */
 
