@@ -48,64 +48,85 @@ namespace Hook_emu
 
 		if (NT_SUCCESS( Return ))
 		{
-			// Debug port
-			if (ProcessInformationClass == ProcessDebugPort)
+			switch (ProcessInformationClass)
 			{
-				// Check if is the correct size
-				if (ProcessInformationLength >= sizeof( DWORD_PTR ))
+				// Debug port
+				case PROCESSINFOCLASS::ProcessDebugPort:
 				{
-					*(DWORD_PTR *) ProcessInformation = 0;
+					// Check if is the correct size
+					if (ProcessInformationLength >= sizeof( DWORD_PTR ))
+					{
+						*(DWORD_PTR *) ProcessInformation = 0;
+					}
+					else
+						Return = STATUS_INFO_LENGTH_MISMATCH;
+
+					break;
 				}
-				else
-					Return = STATUS_INFO_LENGTH_MISMATCH;
-			}
-			//  Debug object
-			else if (ProcessInformationClass == ProcessDebugObjectHandle)
-			{
-				// Check if is the correct size
-				if (ProcessInformationLength >= sizeof( DWORD_PTR ))
+
+				//  Debug object
+				case PROCESSINFOCLASS::ProcessDebugObjectHandle:
 				{
-					*(DWORD_PTR *) ProcessInformation = 0;
-					Return = STATUS_PORT_NOT_SET;
+					// Check if is the correct size
+					if (ProcessInformationLength >= sizeof( DWORD_PTR ))
+					{
+						*(DWORD_PTR *) ProcessInformation = 0;
+						Return = STATUS_PORT_NOT_SET;
+					}
+					else
+						Return = STATUS_INFO_LENGTH_MISMATCH;
+
+					break;
 				}
-				else
-					Return = STATUS_INFO_LENGTH_MISMATCH;
-			}
-			// Debug flags
-			else if (ProcessInformationClass == ProcessDebugFlags)
-			{
-				// Check if is the correct size
-				if (ProcessInformationLength >= sizeof( DWORD_PTR ))
+
+				// Debug flags
+				case PROCESSINFOCLASS::ProcessDebugFlags:
 				{
-					*(DWORD_PTR *) ProcessInformation = DebugFlags;
+					// Check if is the correct size
+					if (ProcessInformationLength >= sizeof( DWORD_PTR ))
+					{
+						*(DWORD_PTR *) ProcessInformation = DebugFlags;
+					}
+					else
+						Return = STATUS_INFO_LENGTH_MISMATCH;
+
+					break;
 				}
-				else
-					Return = STATUS_INFO_LENGTH_MISMATCH;
-			}
-			// Basic information
-			else if (ProcessInformationClass == ProcessBasicInformation)
-			{
-				// Patch Parent PID
-				PROCESS_BASIC_INFORMATION * pb = (PROCESS_BASIC_INFORMATION *) ProcessInformation;
-				pb->InheritedFromUniqueProcessId = Hooks_Informastion::FPPID;
-			}
-			// ProcessBreakOnTermination
-			else if (ProcessInformationClass == ProcessBreakOnTermination)
-			{
-				// Check if is the correct size
-				if (ProcessInformationLength >= sizeof( ULONG ))
+
+				// Basic information
+				case PROCESSINFOCLASS::ProcessBasicInformation:
 				{
-					*(ULONG *) ProcessInformation = BreakT;
+					// Patch Parent PID
+					PROCESS_BASIC_INFORMATION * pb = (PROCESS_BASIC_INFORMATION *) ProcessInformation;
+					pb->InheritedFromUniqueProcessId = Hooks_Informastion::FPPID;
+
+					break;
 				}
-				else
-					Return = STATUS_INFO_LENGTH_MISMATCH;
-			}
-			else if (ProcessInformationClass == SystemCrashDumpInformation)
-			{
-				if (IsEnabledTracing)
-					Return = STATUS_SUCCESS;
-				else
-					Return = STATUS_INVALID_PARAMETER;
+
+				// ProcessBreakOnTermination
+				case PROCESSINFOCLASS::ProcessBreakOnTermination:
+				{
+					// Check if is the correct size
+					if (ProcessInformationLength >= sizeof( ULONG ))
+					{
+						*(ULONG *) ProcessInformation = BreakT;
+					}
+					else
+						Return = STATUS_INFO_LENGTH_MISMATCH;
+
+					break;
+				}
+
+				// Crash dump info
+				case SYSTEM_INFORMATION_CLASS::SystemCrashDumpInformation:
+				{
+					if (IsEnabledTracing)
+						Return = STATUS_SUCCESS;
+					else
+						Return = STATUS_INVALID_PARAMETER;
+
+					break;
+				}
 			}
 		}
 		return Return;
