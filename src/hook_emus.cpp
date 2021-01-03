@@ -16,10 +16,42 @@ static CONTEXT BeckupHardwareBP[1000] = { 0 };
 static bool KIUEDFlag[1000] = { 0 };
 
 // Some common debugger process names.
-const wchar_t * Debuggers[13] = { L"ollydbg.exe", L"windbg.exe", L"devenv.exe", L"ImmunityDebugger.exe", L"idaq.exe", L"idaq64.exe", L"ida.exe",
-L"ida64.exe", L"x32dbg.exe", L"x64dbg.exe", L"ProcessHacker.exe", L"cheatengine-x86_64.exe", L"cheatengine-i386.exe" };
-const wchar_t * DebuggersPatch[13] = { L"proc1.exe", L"proc2.exe", L"proc3.exe", L"proc4.exe", L"proc5.exe", L"proc6.exe",
-L"proc7.exe", L"proc8.exe", L"proc9.exe", L"proc10.exe", L"proc11.exe", L"proc12.exe", L"proc13.exe" };
+const wchar_t * Debuggers[15] = 
+{ 
+	L"ollydbg.exe",
+	L"windbg.exe", 
+	L"devenv.exe",
+	L"ImmunityDebugger.exe",
+	L"idaq.exe",
+	L"idaq64.exe",
+	L"ida.exe",
+	L"ida64.exe",
+	L"x32dbg.exe",
+	L"x64dbg.exe",
+	L"ProcessHacker.exe",
+	L"cheatengine-x86_64.exe",
+	L"cheatengine-i386.exe",
+	L"binaryninja.exe",
+	L"DbgX.Shell.exe" // WinDbg preview (UWP)
+};
+const wchar_t * DebuggersPatch[15] = 
+{ 
+	L"proc1.exe",
+	L"proc2.exe",
+	L"proc3.exe", 
+	L"proc4.exe",
+	L"proc5.exe",
+	L"proc6.exe",
+	L"proc7.exe",
+	L"proc8.exe",
+	L"proc9.exe",
+	L"proc10.exe",
+	L"proc11.exe",
+	L"proc12.exe",
+	L"proc13.exe",
+	L"proc14.exe",
+	L"proc15.exe"
+};
 
 namespace Hook_emu
 {
